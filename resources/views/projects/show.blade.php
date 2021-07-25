@@ -8,19 +8,8 @@
 </head>
 <body>
     
-    <h1>Tdd</h1>
+    <h1>{{$project->title}}</h1>
 
-    @forelse ($projects as $project)
-        <li>
-            
-            <a href="{{$project->path()}}">{{$project->title}}</a> 
-        </li>
-
-    @empty
-
-        <li>No project yet</li>    
-
-    @endforelse
-
+    <div>{{$project->description}}</div>
 </body>
 </html>
