@@ -40,15 +40,20 @@ class ProjectsController extends Controller
 
         // $attributes['owner_id'] = auth()->id();
 
-        auth()->user()->projects()->create(request()->validate(['title'=>'required', 'description'=>'required']));
+        //auth()->user()->projects()->create(request()->validate(['title'=>'required', 'description'=>'required']));
 
         //persist
+        $attributes = request()->validate([
+            'title' => 'required',
+            'description' => 'required'
+        ]);
 
+        $project = auth()->user()->projects()->create($attributes);
         
 
         //redirect
 
-        return redirect('/projects');
+        return redirect($project->path());
 
     }
 
