@@ -45,8 +45,10 @@ class ProjectsController extends Controller
         //persist
         $attributes = request()->validate([
             'title' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'notes' => 'min:3'
         ]);
+        
 
         $project = auth()->user()->projects()->create($attributes);
         
@@ -55,6 +57,20 @@ class ProjectsController extends Controller
 
         return redirect($project->path());
 
+    }
+
+    public function update(Project $project){
+        if( auth()->user()->isNot($project->owner)){
+            abort(403);
+        }
+
+        // $project->update([
+        //     'notes'=>request('notes')
+        // ]);
+
+        $project->update(request(['notes']));
+
+        return redirect($project->path());
     }
 
 }
