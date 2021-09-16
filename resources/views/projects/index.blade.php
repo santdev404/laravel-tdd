@@ -1,18 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+@extends ('layouts.app')
+ 
+
+@section('content')
     
-    <h1>Tdd</h1>
+    <header class="flex items-center mb-3 py-4">
 
-    @foreach ($projects as $project)
-        <li>{{$project->title}}</li>
-    @endforeach
+        <div class="flex justify-between items-center w-full">
+            <h2 class="text-grey text-sm font-normal">My projects</h2>
+            <a href="/projects/create" class="button">Create a new project</a>
+        </div>
+        
 
-</body>
-</html>
+    </header>
+
+    <main class="lg:flex lg:flex-wrap -mx-3">
+        @forelse ($projects as $project)
+            <div class="lg:w-1/3 px-4 pb-6">
+                @include('projects.card')
+            </div>
+
+        @empty
+            <li>No project yet</li>
+        @endforelse
+    </main>
+
+
+@endsection

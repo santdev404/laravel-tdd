@@ -13,10 +13,28 @@
 
 Route::get('/', function () {
     return view('welcome');
+
 });
 
-Route::get('/projects', 'ProjectsController@index');
+
+Route::group(['middleware' => 'auth'], function(){
+
+    Route::get('/projects', 'ProjectsController@index');
+    Route::get('/projects/create', 'ProjectsController@create');
+    Route::get('/projects/{project}', 'ProjectsController@show');
+    Route::patch('/projects/{project}', 'ProjectsController@update');
+    Route::post('/projects', 'ProjectsController@store');
+
+    Route::post('/projects/{project}/tasks', 'ProjectTasksController@store');
+    Route::patch('/projects/{project}/tasks/{task}', 'ProjectTasksController@update');
 
 
 
-Route::post('/projects', 'ProjectsController@store');
+    Route::get('/home', 'ProjectsController@index')->name('home');
+
+});
+
+
+Auth::routes();
+
+
