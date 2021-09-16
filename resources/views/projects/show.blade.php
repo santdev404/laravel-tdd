@@ -9,7 +9,7 @@
         <div class="flex justify-between items-center w-full">
             <p class="text-grey text-sm font-normal">
                 <a href="/projects" class="text-grey text-sm font-normal no-underline">My projects </a> / {{$project->title}}</p>
-            <a href="/projects/create" class="button">Create a new project</a>
+            <a href="{{$project->path()."/edit"}}" class="button">Edit the project</a>
         </div>
         
 
