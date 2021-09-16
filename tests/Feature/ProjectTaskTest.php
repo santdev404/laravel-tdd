@@ -6,7 +6,7 @@ use App\Project;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Setup\ProjectFactory;
+use Facades\Tests\Setup\ProjectFactory;
 
 class ProjectTaskTest extends TestCase
 {
@@ -15,11 +15,7 @@ class ProjectTaskTest extends TestCase
     /** @test */
     public function a_project_can_have_tasks(){
 
-        // $this->withoutExceptionHandling();
-
-        $this->signIn();
-
-        $project = factory(Project::class)->create(['owner_id' => auth()->id()]);
+        $project = ProjectFactory::ownedBy($this->signIn())->create();
 
         $this->post($project->path().'/tasks', ['body' => 'Test task']);
 
@@ -43,15 +39,11 @@ class ProjectTaskTest extends TestCase
     /** @test */
     public function only_the_owner_of_a_project_may_update_a_task(){
 
-        // $this->withoutExceptionHandling();
+        $project= ProjectFactory::withTasks(1)->create();
 
         $this->signIn();
 
-        $project = factory('App\Project')->create();
-
-        $task = $project->addTask('test task');
-
-        $this->patch($task->path(), ['body' => 'changed'])->assertStatus(403);
+        $this->patch($project->tasks->first()->path(), ['body' => 'changed'])->assertStatus(403);
 
         $this->assertDatabaseMissing('tasks', ['body' => 'changed']);
 
@@ -59,11 +51,8 @@ class ProjectTaskTest extends TestCase
 
     /** @test */
     public function a_task_require_a_body(){
-        $this->signIn();
 
-        $project = auth()->user()->projects()->create(
-            factory(Project::class)->raw()
-        );
+        $project = ProjectFactory::ownedBy($this->signIn())->create();
 
         $attributes = factory('App\Task')->raw(['body' => '']);
 
@@ -74,12 +63,7 @@ class ProjectTaskTest extends TestCase
     /** @test*/
     public function a_task_can_be_updated(){
 
-
-        // $this->withoutExceptionHandling();
-
-        $project = app(ProjectFactory::class)
-                    ->withTasks(1)
-                    ->create();
+        $project = ProjectFactory::withTasks(1)->create();
 
         $this->actingAs($project->owner)->patch($project->tasks->first()->path(), [
             'body' => 'changed',
