@@ -32,11 +32,10 @@ class Project extends Model
     }
 
 
-    public function recordActivity($type){
-        Activity::create([
-            'project_id' => $this->id,
-            'description' => $type
-        ]);
+    public function recordActivity($description){
+
+        $this->activity()->create(compact('description'));
+
     }
     
 }

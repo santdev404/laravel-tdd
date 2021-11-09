@@ -26,25 +26,17 @@ class Task extends Model
             $task->project->recordActivity('created_task');
 
         });
-
-        
-        /*
-        static::updated(function ($task){
-
-            if(! $task->completed) return;
-
-            $task->project->recordActivity('completed_task');
-        });
-        */
         
     }
-
-
-
 
     public function complete(){
         $this->update(['completed'=>true]);
         $this->project->recordActivity('completed_task');
+    }
+
+
+    public function incomplete(){
+        $this->update(['completed'=>false]);
     }
 
     public function project(){
