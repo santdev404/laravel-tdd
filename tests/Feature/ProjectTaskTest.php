@@ -64,6 +64,8 @@ class ProjectTaskTest extends TestCase
     public function a_task_can_be_updated(){
 
         $project = ProjectFactory::withTasks(1)->create();
+        //$project = factory(Project::class)->create();
+
 
         $this->actingAs($project->owner)->patch($project->tasks->first()->path(), [
             'body' => 'changed',
