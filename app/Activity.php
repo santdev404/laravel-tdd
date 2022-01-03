@@ -12,5 +12,9 @@ class Activity extends Model
     public function subject(){
         return $this->morphTo();
     }
+
+    protected $casts = [
+        'changes' => 'array'
+    ];
     
 }

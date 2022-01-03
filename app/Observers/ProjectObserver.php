@@ -19,6 +19,11 @@ class ProjectObserver
 
     }
 
+
+    public function updating(project $project){
+        $project->old = $project->getOriginal();
+    }
+
     /**
      * Handle the project "updated" event.
      *
