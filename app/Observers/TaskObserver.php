@@ -19,6 +19,8 @@ class TaskObserver
 
 
 
+
+
     /**
      * Handle the task "deleted" event.
      *
