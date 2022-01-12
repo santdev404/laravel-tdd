@@ -3,6 +3,7 @@
 namespace App;
 use Illuminate\Support\Arr;
 
+
 trait RecordsActivity{
 
     public $oldAttributes = [];
